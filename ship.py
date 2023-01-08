@@ -6,10 +6,14 @@ class Ship:
 
     def __init__(self, screen):
         self.screen = screen
-        self.image = pg.Surface((200, 200))
+        self.image = pg.image.load('images/spaceship.png')
+
+        DEFAULT_IMAGE_SIZE = (128, 128)
+        self.image = pg.transform.scale(self.image, DEFAULT_IMAGE_SIZE)
+
         self.rect = self.image.get_rect()  # создает колижн-модель
         self.screen_rect = screen.get_rect()
-        self.image.fill((255, 0, 0))
+        #self.image.fill((255, 0, 0))
 
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
