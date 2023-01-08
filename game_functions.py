@@ -1,6 +1,7 @@
 import sys
 import pygame as pg
 from bullet import Bullet
+from alien import Alien
 
 
 def check_keydown_events(event, obj, config, screen, bullets_list):
@@ -10,6 +11,8 @@ def check_keydown_events(event, obj, config, screen, bullets_list):
         obj.moving_left = True
     elif event.key == pg.K_SPACE:
         fire(config, screen, obj, bullets_list)
+    elif event.key == pg.K_ESCAPE:  # если нажата кнопка ESCAPE
+        sys.exit()  # закрыть окно игры
 
 
 
@@ -30,11 +33,12 @@ def check_events(obj, config, screen, bullets_list):
             check_keyup_events(event, obj)
 
 
-def update_screen(settings, screen, obj, group):
+def update_screen(settings, screen, obj, group, enemy):
     screen.fill(settings.bg_color)
     for bullet in group.sprites():
         bullet.draw_bullet()
     obj.blit()
+    enemy.blit()
     pg.display.flip()  # отображение последнего прорисованного кадра
 
 
@@ -51,3 +55,11 @@ def fire(config, screen, obj, bullets_list):
     if len(bullets_list) < config.bullets_limit:  # если количество выстрелов меньше позволенного лимита
         new_bullet = Bullet(config, screen, obj)  # создать пулю
         bullets_list.add(new_bullet)  # добавить ее в группу
+
+
+def create_fleet(config, screen, enemies):
+    alien = Alien(screen)
+    alien_width = alien.rect.width
+    avail_space_x = config.screen_width - (2 * alien_width)
+    num_of_aliens = avail_space_x / (2 * alien_width)
+    enemies.add(alien)
