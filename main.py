@@ -17,7 +17,7 @@ def run():
     while True:
         gf.check_events(ship, game_config, screen, bullets)  # трекаем события в игре
         ship.update()
-        bullets.update()
+        gf.update_bullets(bullets)
         gf.update_screen(game_config, screen, ship, bullets)  # обновление экрана игры
 
 

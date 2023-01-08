@@ -3,14 +3,14 @@ import pygame as pg
 from bullet import Bullet
 
 
-def check_keydown_events(event, obj, config, screen, group):
+def check_keydown_events(event, obj, config, screen, bullets_list):
     if event.key == pg.K_RIGHT:
         obj.moving_right = True  # разрешаем кораблю двигаться вправо
     elif event.key == pg.K_LEFT:
         obj.moving_left = True
     elif event.key == pg.K_SPACE:
-        new_bullet = Bullet(config, screen, obj)
-        group.add(new_bullet)
+        fire(config, screen, obj, bullets_list)
+
 
 
 def check_keyup_events(event, obj):
@@ -20,12 +20,12 @@ def check_keyup_events(event, obj):
         obj.moving_left = False
 
 
-def check_events(obj, config, screen, group):
+def check_events(obj, config, screen, bullets_list):
     for event in pg.event.get():  # обрабатываю события
         if event.type == pg.QUIT:  # если нажали на крестик
             sys.exit()  # закрыть окно
         elif event.type == pg.KEYDOWN:
-            check_keydown_events(event, obj, config, screen, group)
+            check_keydown_events(event, obj, config, screen, bullets_list)
         elif event.type == pg.KEYUP:
             check_keyup_events(event, obj)
 
@@ -36,3 +36,18 @@ def update_screen(settings, screen, obj, group):
         bullet.draw_bullet()
     obj.blit()
     pg.display.flip()  # отображение последнего прорисованного кадра
+
+
+def update_bullets(bullets_list):
+    bullets_list.update()
+
+    # удаляем пули, которые улетели за игровую зону
+    for bullet in bullets_list:
+        if bullet.rect.bottom <= 0:  # координата нижней части пули меньше нуля
+            bullets_list.remove(bullet)
+
+
+def fire(config, screen, obj, bullets_list):
+    if len(bullets_list) < config.bullets_limit:  # если количество выстрелов меньше позволенного лимита
+        new_bullet = Bullet(config, screen, obj)  # создать пулю
+        bullets_list.add(new_bullet)  # добавить ее в группу
