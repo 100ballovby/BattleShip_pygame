@@ -38,7 +38,7 @@ def update_screen(settings, screen, obj, group, enemy):
     for bullet in group.sprites():
         bullet.draw_bullet()
     obj.blit()
-    enemy.blit()
+    enemy.draw(screen)
     pg.display.flip()  # отображение последнего прорисованного кадра
 
 
@@ -57,9 +57,34 @@ def fire(config, screen, obj, bullets_list):
         bullets_list.add(new_bullet)  # добавить ее в группу
 
 
-def create_fleet(config, screen, enemies):
+def get_num_of_enemies(config, enemy_width):
+    avail_space_x = config.screen_width - (2 * enemy_width)  # считаем количество пришельцев в ряду
+    num_of_aliens = avail_space_x // (2 * enemy_width)
+    return num_of_aliens
+
+
+def get_num_of_rows(config, obj_height, enemy_height):
+    avail_space_y = config.screen_height - (3 * enemy_height) - obj_height
+    num_of_rows = avail_space_y // (2 * enemy_height)
+    return num_of_rows
+
+
+def create_enemy(screen, enemies, enemy_number, row_number):
+    """Создаем врага и размещаем его на экране"""
     alien = Alien(screen)
     alien_width = alien.rect.width
-    avail_space_x = config.screen_width - (2 * alien_width)
-    num_of_aliens = avail_space_x / (2 * alien_width)
+    alien.x = alien_width + 2 * alien_width * enemy_number
+    alien.rect.x = alien.x  # совмещаем хитбокс пришельца с картинкой пришельца
+    alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
     enemies.add(alien)
+
+
+def create_fleet(config, screen, enemies, obj):
+    alien = Alien(screen)
+    num_of_aliens = get_num_of_enemies(config, alien.rect.width)
+    num_of_rows = get_num_of_rows(config, obj.rect.height, alien.rect.height)
+
+    for row_n in range(num_of_rows):
+        for alien_n in range(num_of_aliens):
+            create_enemy(screen, enemies, alien_n, row_n)
+

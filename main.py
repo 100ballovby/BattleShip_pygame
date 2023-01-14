@@ -15,6 +15,8 @@ def run():
     alien = Alien(screen)
     bullets = Group()  # группируем объекты-пули
     aliens = Group()
+    # создадим вражеский флот
+    gf.create_fleet(game_config, screen, aliens, ship)
 
     # цвет фона игры
     pg.display.set_caption('Battle Ship!')  # название игры в окошке
@@ -22,7 +24,7 @@ def run():
         gf.check_events(ship, game_config, screen, bullets)  # трекаем события в игре
         ship.update()
         gf.update_bullets(bullets)
-        gf.update_screen(game_config, screen, ship, bullets, alien)  # обновление экрана игры
+        gf.update_screen(game_config, screen, ship, bullets, aliens)  # обновление экрана игры
 
 
 run()

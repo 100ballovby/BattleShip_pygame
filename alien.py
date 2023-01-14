@@ -1,21 +1,23 @@
 import pygame as pg
+from pygame.sprite import Sprite
 
 
-class Alien:
+class Alien(Sprite):
     """Класс врага"""
 
     def __init__(self, screen):
+        super(Alien, self).__init__()
         self.screen = screen
         self.image = pg.image.load('images/ufo.png')
 
-        DEFAULT_IMAGE_SIZE = (128, 128)
+        DEFAULT_IMAGE_SIZE = (64, 64)  # TODO: добавить относительное определение размера
         self.image = pg.transform.scale(self.image, DEFAULT_IMAGE_SIZE)
 
         self.rect = self.image.get_rect()  # создает колижн-модель
-        self.screen_rect = screen.get_rect()
 
-        self.rect.x = 200 or self.screen_rect.width
-        self.rect.y = 200 or self.screen_rect.height
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
+        self.x = float(self.rect.x)  # сохранение точной позиции пришельца
 
 
     def blit(self):
