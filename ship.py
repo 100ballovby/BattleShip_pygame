@@ -32,3 +32,7 @@ class Ship:
         elif self.moving_left and self.rect.left > 0:
             self.rect.centerx -= 10
 
+    def center_ship(self):
+        """Размещает корабль в центре экрана"""
+        self.rect.centerx = self.screen_rect.centerx
+

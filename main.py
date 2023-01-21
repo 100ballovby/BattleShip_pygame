@@ -4,6 +4,7 @@ import game_functions as gf
 from settings import Config
 from ship import Ship
 from alien import Alien
+from game_stat import GameStat
 
 
 def run():
@@ -12,9 +13,9 @@ def run():
     screen = pg.display.set_mode((game_config.screen_width,
                                  game_config.screen_height))  # окно игры и размер
     ship = Ship(screen)
-    alien = Alien(screen)
     bullets = Group()  # группируем объекты-пули
     aliens = Group()
+    stat = GameStat(game_config)
     # создадим вражеский флот
     gf.create_fleet(game_config, screen, aliens, ship)
 
@@ -23,8 +24,8 @@ def run():
     while True:
         gf.check_events(ship, game_config, screen, bullets)  # трекаем события в игре
         ship.update()
-        gf.update_bullets(bullets, aliens)
-        gf.update_enemies(aliens)
+        gf.update_bullets(bullets, aliens, game_config, screen, ship)
+        gf.update_enemies(game_config, stat, screen, ship, aliens, bullets)
         gf.update_screen(game_config, screen, ship, bullets, aliens)  # обновление экрана игры
 
 

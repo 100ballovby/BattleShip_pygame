@@ -1,4 +1,5 @@
 import sys
+from time import sleep
 import pygame as pg
 from bullet import Bullet
 from alien import Alien
@@ -42,11 +43,15 @@ def update_screen(settings, screen, obj, group, enemy):
     pg.display.flip()  # отображение последнего прорисованного кадра
 
 
-def update_bullets(bullets_list, enemies):
+def update_bullets(bullets_list, enemies, config, screen, obj):
     bullets_list.update()
 
     collisions = pg.sprite.groupcollide(bullets_list, enemies, True, True)
     # при обнаружении столкновения пули с пришельцем, удалить пулю
+    if len(enemies) == 0:
+        # уничтожим существующие пули и добавим новых врагов
+        bullets_list.empty()
+        create_fleet(config, screen, enemies, obj)
 
     # удаляем пули, которые улетели за игровую зону
     for bullet in bullets_list:
@@ -105,8 +110,24 @@ def change_fleet_direction(enemies):
         enemy.rect.y += enemy.drop_speed
         enemy.direction *= -1
 
-def update_enemies(enemies):
+def update_enemies(config, stat, screen, obj, enemies, bullets_list):
     """Обновляет позицию всех врагов на экране"""
     check_fleet_edges(enemies)
     enemies.update()
 
+    # проверка коллизий "враг-игрок"
+    if pg.sprite.spritecollideany(obj, enemies):
+        ship_hit(config, stat, screen, obj, enemies, bullets_list)
+
+
+def ship_hit(config, stat, screen, obj, enemies, bullets_list):
+    # уменьшаем количество доступных кораблей
+    stat.ships_left -= 1
+
+    enemies.empty()
+    bullets_list.empty()
+
+    create_fleet(config, screen, enemies, obj)
+    obj.center_ship()
+
+    sleep(0.5)

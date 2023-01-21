@@ -6,6 +6,8 @@ class Config:
         self.screen_height = resolution[1]
         self.bg_color = bg_color
 
+        self.ship_limit = 3 # всего игроку доступно 3 корабля
+
         # параметры пули
         self.bullet_width = 2
         self.bullet_height = 15
