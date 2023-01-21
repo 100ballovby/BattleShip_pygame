@@ -24,3 +24,9 @@ class Alien(Sprite):
         """Рисует врага на экране"""
         self.screen.blit(self.image, self.rect)
 
+
+    def update(self):
+        """Перемещает пришельцев вправо"""
+        self.x += 11
+        self.rect.x = self.x
+

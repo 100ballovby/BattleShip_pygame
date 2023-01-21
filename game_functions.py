@@ -88,3 +88,8 @@ def create_fleet(config, screen, enemies, obj):
         for alien_n in range(num_of_aliens):
             create_enemy(screen, enemies, alien_n, row_n)
 
+
+def update_enemies(enemies):
+    """Обновляет позицию всех врагов на экране"""
+    enemies.update()
+
