@@ -7,7 +7,7 @@ class Config:
         self.bg_color = bg_color
 
         # параметры пули
-        self.bullet_width = 3
+        self.bullet_width = 2
         self.bullet_height = 15
         self.bullet_color = 60, 60, 60
         self.bullets_limit = 3

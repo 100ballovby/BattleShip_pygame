@@ -42,8 +42,11 @@ def update_screen(settings, screen, obj, group, enemy):
     pg.display.flip()  # отображение последнего прорисованного кадра
 
 
-def update_bullets(bullets_list):
+def update_bullets(bullets_list, enemies):
     bullets_list.update()
+
+    collisions = pg.sprite.groupcollide(bullets_list, enemies, True, True)
+    # при обнаружении столкновения пули с пришельцем, удалить пулю
 
     # удаляем пули, которые улетели за игровую зону
     for bullet in bullets_list:
@@ -89,7 +92,21 @@ def create_fleet(config, screen, enemies, obj):
             create_enemy(screen, enemies, alien_n, row_n)
 
 
+def check_fleet_edges(enemies):
+    """Реагирует на столкновение врага с краем экрана"""
+    for enemy in enemies.sprites():
+        if enemy.check_edges():
+            change_fleet_direction(enemies)
+            break
+
+def change_fleet_direction(enemies):
+    """Опускает весь флот на одну линейку вниз """
+    for enemy in enemies.sprites():
+        enemy.rect.y += enemy.drop_speed
+        enemy.direction *= -1
+
 def update_enemies(enemies):
     """Обновляет позицию всех врагов на экране"""
+    check_fleet_edges(enemies)
     enemies.update()
 

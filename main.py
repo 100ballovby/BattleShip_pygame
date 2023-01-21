@@ -23,7 +23,7 @@ def run():
     while True:
         gf.check_events(ship, game_config, screen, bullets)  # трекаем события в игре
         ship.update()
-        gf.update_bullets(bullets)
+        gf.update_bullets(bullets, aliens)
         gf.update_enemies(aliens)
         gf.update_screen(game_config, screen, ship, bullets, aliens)  # обновление экрана игры
 
