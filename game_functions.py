@@ -71,6 +71,7 @@ def update_bullets(bullets_list, enemies, config, screen, obj):
     if len(enemies) == 0:
         # уничтожим существующие пули и добавим новых врагов
         bullets_list.empty()
+        config.increase_speed()
         create_fleet(config, screen, enemies, obj)
 
     # удаляем пули, которые улетели за игровую зону
@@ -97,9 +98,9 @@ def get_num_of_rows(config, obj_height, enemy_height):
     return num_of_rows
 
 
-def create_enemy(screen, enemies, enemy_number, row_number):
+def create_enemy(screen, enemies, enemy_number, row_number, config):
     """Создаем врага и размещаем его на экране"""
-    alien = Alien(screen)
+    alien = Alien(screen, config)
     alien_width = alien.rect.width
     alien.x = alien_width + 2 * alien_width * enemy_number
     alien.rect.x = alien.x  # совмещаем хитбокс пришельца с картинкой пришельца
@@ -108,13 +109,13 @@ def create_enemy(screen, enemies, enemy_number, row_number):
 
 
 def create_fleet(config, screen, enemies, obj):
-    alien = Alien(screen)
+    alien = Alien(screen, config)
     num_of_aliens = get_num_of_enemies(config, alien.rect.width)
     num_of_rows = get_num_of_rows(config, obj.rect.height, alien.rect.height)
 
     for row_n in range(num_of_rows):
         for alien_n in range(num_of_aliens):
-            create_enemy(screen, enemies, alien_n, row_n)
+            create_enemy(screen, enemies, alien_n, row_n, config)
 
 
 def check_fleet_edges(enemies):

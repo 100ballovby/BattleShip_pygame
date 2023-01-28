@@ -14,7 +14,7 @@ def run():
     game_config = Config((1200, 800), (230, 230, 230))  # создаю экземпляр класса настроек
     screen = pg.display.set_mode((game_config.screen_width,
                                  game_config.screen_height))  # окно игры и размер
-    ship = Ship(screen)
+    ship = Ship(screen, game_config)
     bullets = Group()  # группируем объекты-пули
     aliens = Group()
     stat = GameStat(game_config)

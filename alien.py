@@ -5,10 +5,12 @@ from pygame.sprite import Sprite
 class Alien(Sprite):
     """Класс врага"""
 
-    def __init__(self, screen):
+    def __init__(self, screen, config):
         super(Alien, self).__init__()
         self.screen = screen
         self.image = pg.image.load('images/ufo.png')
+
+        self.settings = config
 
         DEFAULT_IMAGE_SIZE = (64, 64)  # TODO: добавить относительное определение размера
         self.image = pg.transform.scale(self.image, DEFAULT_IMAGE_SIZE)
@@ -21,7 +23,7 @@ class Alien(Sprite):
 
         # настройка direction отвечает за направление движения флота. 1 - право, -1 лево
         self.direction = 1
-        self.speed = 10  # скорость перемещения влево-вправо
+        self.speed = self.settings.enemy_speed_factor  # скорость перемещения влево-вправо
         self.drop_speed = 20  # скорость перемещения вниз
 
 
