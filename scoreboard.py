@@ -13,7 +13,8 @@ class Scoreboard:
         self.transform_score()  # сразу при инициализации вызываем метод подготовки вывода очков
 
     def transform_score(self):
-
+        rounded_score = int(round(self.stat.score, -1))
+        score_str = "{:,}".format(rounded_score)
         self.score_image = self.font.render(score_str, True, self.text_color,
                                             self.settings.bg_color)
         self.score_rect = self.score_image.get_rect()
