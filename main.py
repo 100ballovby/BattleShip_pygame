@@ -3,9 +3,9 @@ from pygame.sprite import Group  # группа пуль, к которым мо
 import game_functions as gf
 from settings import Config
 from ship import Ship
-from alien import Alien
 from game_stat import GameStat
 from button import Button
+from scoreboard import Scoreboard
 
 
 def run():
@@ -19,6 +19,7 @@ def run():
     aliens = Group()
     stat = GameStat(game_config)
     play_btn = Button(game_config, screen, "Start")
+    sb = Scoreboard(game_config, screen, stat)
     # создадим вражеский флот
     gf.create_fleet(game_config, screen, aliens, ship)
 
@@ -31,7 +32,7 @@ def run():
             ship.update()
             gf.update_bullets(bullets, aliens, game_config, screen, ship)
             gf.update_enemies(game_config, stat, screen, ship, aliens, bullets)
-        gf.update_screen(game_config, screen, ship, bullets, aliens, play_btn, stat)  # обновление экрана игры
+        gf.update_screen(game_config, screen, ship, bullets, aliens, play_btn, stat, sb)  # обновление экрана игры
 
 
 

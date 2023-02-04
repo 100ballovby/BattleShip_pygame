@@ -50,12 +50,14 @@ def check_play_btn(stat, btn, x, y, config, screen, obj, enemies, bullets_list):
         obj.center_ship()
 
 
-def update_screen(settings, screen, obj, group, enemy, btn, stat):
+def update_screen(settings, screen, obj, group, enemy, btn, stat, score):
     screen.fill(settings.bg_color)
     for bullet in group.sprites():
         bullet.draw_bullet()
     obj.blit()
     enemy.draw(screen)
+
+    score.show_score()
 
     if not stat.game_active:  # отображаем кнопку после отображения всех элементов игры, чтобы она ничем не закрывалась
         btn.draw_button()
