@@ -13,7 +13,7 @@ class Scoreboard:
         self.transform_score()  # сразу при инициализации вызываем метод подготовки вывода очков
 
     def transform_score(self):
-        score_str = str(self.stat.score)
+
         self.score_image = self.font.render(score_str, True, self.text_color,
                                             self.settings.bg_color)
         self.score_rect = self.score_image.get_rect()

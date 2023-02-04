@@ -65,10 +65,14 @@ def update_screen(settings, screen, obj, group, enemy, btn, stat, score):
     pg.display.flip()  # отображение последнего прорисованного кадра
 
 
-def update_bullets(bullets_list, enemies, config, screen, obj):
+def update_bullets(bullets_list, enemies, config, screen, obj, stat, score):
     bullets_list.update()
 
     collisions = pg.sprite.groupcollide(bullets_list, enemies, True, True)
+    if collisions:  # если пуля и враг столкнулись
+        for enemies in collisions.values():  # если пуля уничтожает двух и более пришельцев
+            stat.score += config.kill_point * len(enemies)  # будем считать очки за каждого из них
+        score.transform_score()  # подготовить их для вывода на экран игры
     # при обнаружении столкновения пули с пришельцем, удалить пулю
     if len(enemies) == 0:
         # уничтожим существующие пули и добавим новых врагов

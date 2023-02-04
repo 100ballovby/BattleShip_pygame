@@ -18,6 +18,8 @@ class Config:
         self.bullets_limit = 3
 
         self.speed_scale = 1.1
+        self.score_scale = 1.5  # то, на сколько увеличивается стоимость убитого прищельца
+
         self.init_dynamic_settings()
 
     def init_dynamic_settings(self):
@@ -27,10 +29,12 @@ class Config:
         self.enemy_speed_factor = 5
 
         self.fleet_direction = 1
+        self.kill_point = 50
 
 
     def increase_speed(self):
         self.ship_speed_factor *= self.speed_scale
         self.bullet_speed_factor *= self.speed_scale
         self.enemy_speed_factor *= self.speed_scale
+        self.kill_point = int(self.kill_point * self.score_scale)  # увеличение происходит по количеству киллов1
 

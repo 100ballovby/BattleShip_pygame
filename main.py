@@ -30,7 +30,7 @@ def run():
 
         if stat.game_active:  # если игра в активном состоянии
             ship.update()
-            gf.update_bullets(bullets, aliens, game_config, screen, ship)
+            gf.update_bullets(bullets, aliens, game_config, screen, ship, stat, sb)
             gf.update_enemies(game_config, stat, screen, ship, aliens, bullets)
         gf.update_screen(game_config, screen, ship, bullets, aliens, play_btn, stat, sb)  # обновление экрана игры
 
