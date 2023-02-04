@@ -73,6 +73,7 @@ def update_bullets(bullets_list, enemies, config, screen, obj, stat, score):
         for enemies in collisions.values():  # если пуля уничтожает двух и более пришельцев
             stat.score += config.kill_point * len(enemies)  # будем считать очки за каждого из них
         score.transform_score()  # подготовить их для вывода на экран игры
+        check_high_score(stat, score)
     # при обнаружении столкновения пули с пришельцем, удалить пулю
     if len(enemies) == 0:
         # уничтожим существующие пули и добавим новых врагов
@@ -161,6 +162,15 @@ def ship_hit(config, stat, screen, obj, enemies, bullets_list):
         sleep(0.5)
     else:
         stat.game_active = False
+
+
+def check_high_score(stat, score):
+    if stat.score >= stat.high_score:
+        stat.high_score = stat.score
+        score.transform_high_score()
+
+        with open("high_score.txt", "w") as file:
+            file.write(str(stat.high_score))
 
 
 
